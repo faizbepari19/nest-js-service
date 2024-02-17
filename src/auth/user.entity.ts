@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Tasks } from '../tasks/tasks.entity';
 
 @Entity()
 export class User {
@@ -29,6 +30,10 @@ export class User {
 
     @Column({ type: "datetime", nullable: true })
     reset_token_expry;
+
+    // Establishing a One-to-Many relationship with Task entity
+    @OneToMany(() => Tasks, task => task.user)
+    tasks: Tasks[];
 
     @CreateDateColumn()
     created_at: Date; // Creation date
