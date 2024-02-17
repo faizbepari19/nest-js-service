@@ -17,7 +17,7 @@ import { TasksModule } from './tasks/tasks.module';
       password: 'fcm1MqlMgF',
       database: 'file_analyser',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     AuthModule,
     TasksModule
