@@ -4,7 +4,7 @@
 ## ENDPOINTS
 BASE_URL= https://kind-gray-grasshopper-cap.cyclic.app
 
-
+```
 POST: /auth/sign_up
 {
     "email": "marnus@gmail.com",
@@ -24,9 +24,9 @@ Status Code: 201
         "id": 4
     }
 }
+```
 
-
-
+```
 POST: /auth/login
 {
     "email": "marnus@gmail.com",
@@ -44,8 +44,9 @@ Status Code: 200
         "token": "generate a JWT token"
     }
 }
+```
 
-
+```
 POST: /auth/forgot-password
 {
     "email": "marnus@gmail.com"
@@ -62,8 +63,10 @@ Status Code: 200
         "token": "889f5d3e-236d-4648-8425-1998a0f56f7a"
     }
 }
+```
 
 
+```
 POST: /auth/reset-password
 {
     "token": "889f5d3e-236d-4648-8425-1998a0f56f7a",
@@ -76,8 +79,10 @@ Status Code: 200
     "status_code": 200,
     "message": "Password reset successful"
 }
+```
 
 
+```
 POST: /tasks
 {
     "title": "learn graphQl",
@@ -97,7 +102,10 @@ Status Code: 201
         "created_at": "2024-02-18T08:00:41.085Z"
     }
 }
+```
 
+
+```
 GET: /tasks
 Response
 Status Code: 200
@@ -121,8 +129,10 @@ Status Code: 200
         }
     ]
 }
+```
 
 
+```
 PUT: /complete/:id
 Response
 Status Code: 200
@@ -137,8 +147,10 @@ Status Code: 200
         "created_at": "2024-02-18T07:57:13.648Z"
     }
 }
+```
 
 
+```
 PUT: /:id
 {
     "title": "learn graphQl",
@@ -158,8 +170,10 @@ Status Code: 200
         "created_at": "2024-02-18T08:00:41.085Z"
     }
 }
+```
 
 
+```
 PATCH: /:id
 
 Response
@@ -168,3 +182,4 @@ Status Code: 200
     "status_code": 200,
     "message": "Task deleted"
 }
+```
