@@ -12,6 +12,10 @@ export class TasksController {
     @Post()
     async create(@Body() task: CreateTaskDto): Promise<ResponseDto> {
         const task_record = await this.tasksService.create(task);
+
+        delete task_record.deleted_at;
+        delete task_record.updated_at;
+
         return new ResponseDto({
             statusCode: 200,
             message: 'Task created',
@@ -39,7 +43,7 @@ export class TasksController {
             throw new NotFoundException('Task not found');
 
         }
-        const task_record = this.tasksService.complete(id);
+        const task_record = await this.tasksService.complete(id);
         return new ResponseDto({
             statusCode: 200,
             message: 'Task completed',
@@ -58,7 +62,7 @@ export class TasksController {
         if (valid_task.status) {
             throw new Error('Cannot edit a completed task');
         }
-        const task_record = this.tasksService.update(id, task);
+        const task_record = await this.tasksService.update(id, task);
         return new ResponseDto({
             statusCode: 200,
             message: 'Task updated',

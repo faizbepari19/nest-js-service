@@ -25,3 +25,9 @@ export class CreateTaskDto {
     title: string;
     description: string;
 }
+
+export class UserSignUpDto {
+    email: string;
+    user_name: string;
+    password: string
+}

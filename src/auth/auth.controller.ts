@@ -2,7 +2,7 @@ import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { User } from './user.entity';
 import { AuthService } from './auth.service';
 import { ResponseDto } from '../common/response.dto';
-import { LoginDto, ForgotPasswordDto, ResetPasswordDto } from '../common/request.dto';
+import { UserSignUpDto, LoginDto, ForgotPasswordDto, ResetPasswordDto } from '../common/request.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -10,12 +10,16 @@ export class AuthController {
 
     //create user
     @Post('sign_up')
-    async create(@Body() user: User): Promise<ResponseDto> {
+    async create(@Body() user: UserSignUpDto): Promise<ResponseDto> {
         const newUser = await this.authService.signUp(user.user_name, user.email, user.password);
         return new ResponseDto({
             statusCode: 200,
             message: 'Sign up successful!',
-            data: newUser
+            data: {
+                id: newUser.id,
+                user_name: newUser.user_name,
+                email: newUser.email
+            }
         });
     }
 
