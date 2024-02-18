@@ -14,7 +14,7 @@ export class AuthController {
         const newUser = await this.authService.signUp(user.user_name, user.email, user.password);
         return new ResponseDto({
             statusCode: 200,
-            message: 'Sign up succcessful!',
+            message: 'Sign up successful!',
             data: newUser
         });
     }
@@ -25,10 +25,11 @@ export class AuthController {
         const user_record = await this.authService.login(user.email, user.password);
         return new ResponseDto({
             statusCode: 200,
-            message: 'Login succcessful!',
+            message: 'Login successful!',
             data: {
                 id: user_record.id,
-                user_name: user_record.user_name
+                user_name: user_record.user_name,
+                token: 'generate a JWT token'
             }
         });
     }

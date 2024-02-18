@@ -16,7 +16,6 @@ export class AuthService {
     async signUp(user_name: string, email: string, password: string): Promise<User> {
         const hashedPassword = hashSync(password, 10);
         const user = this.usersRepository.create({ user_name: user_name, email, password: hashedPassword });
-        console.log('hiii ', user)
         return this.usersRepository.save(user);
     }
 
@@ -45,9 +44,6 @@ export class AuthService {
         await this.usersRepository.save(user);
 
         return [user, resetToken]
-        // result.email = user.email;
-        // result.token = resetToken;
-        // return result
     }
 
     async resetPassword(email: string, token: string, newPassword: string): Promise<void> {
