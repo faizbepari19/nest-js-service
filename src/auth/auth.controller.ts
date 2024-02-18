@@ -1,23 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { User } from './user.entity';
 import { AuthService } from './auth.service';
-
-// Create a DTO (Data Transfer Object) for the login request payload
-export class LoginDto {
-    email: string;
-    password: string;
-}
-
-export class ForgotPasswordDto {
-    email: string;
-}
-
-export class ResetPasswordDto {
-    email: string;
-    token: string;
-    new_password: string;
-}
-
+import { ResponseDto } from '../common/response.dto';
+import { LoginDto, ForgotPasswordDto, ResetPasswordDto } from '../common/request.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -25,29 +10,56 @@ export class AuthController {
 
     //create user
     @Post('sign_up')
-    async create(@Body() user: User): Promise<User> {
-        return await this.authService.signUp(user.user_name, user.email, user.password);
+    async create(@Body() user: User): Promise<ResponseDto> {
+        const newUser = await this.authService.signUp(user.user_name, user.email, user.password);
+        return new ResponseDto({
+            statusCode: 200,
+            message: 'Sign up succcessful!',
+            data: newUser
+        });
     }
 
     @Post('login')
-    async login(@Body() user: LoginDto): Promise<User> {
-        return await this.authService.login(user.email, user.password);
+    @HttpCode(200)
+    async login(@Body() user: LoginDto): Promise<ResponseDto> {
+        const user_record = await this.authService.login(user.email, user.password);
+        return new ResponseDto({
+            statusCode: 200,
+            message: 'Login succcessful!',
+            data: {
+                id: user_record.id,
+                user_name: user_record.user_name
+            }
+        });
     }
 
     @Post('forgot-password')
-    async forgotPassword(@Body() user: ForgotPasswordDto) {
-        return this.authService.forgotPassword(user.email);
+    @HttpCode(200)
+    async forgotPassword(@Body() user: ForgotPasswordDto): Promise<ResponseDto> {
+        const [user_record, resetToken] = await this.authService.forgotPassword(user.email);
+        return new ResponseDto({
+            statusCode: 200,
+            message: 'Reset link',
+            data: {
+                id: user_record.id,
+                user_name: user_record.user_name,
+                token: resetToken
+            }
+        });
     }
 
     @Post('reset-password')
-    async resetPassword(@Body() reset_user: ResetPasswordDto)  {
-        
+    @HttpCode(200)
+    async resetPassword(@Body() reset_user: ResetPasswordDto): Promise<ResponseDto> {
         await this.authService.resetPassword(
             reset_user.email,
             reset_user.token,
             reset_user.new_password,
         );
-        return { message: 'Password reset successful' };
+        return new ResponseDto({
+            statusCode: 200,
+            message: 'Password reset successful'
+        });
     }
 }
 

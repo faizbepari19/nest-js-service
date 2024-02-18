@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { TasksModule } from './tasks/tasks.module';
+import { ResponseInterceptor } from './common/response.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -23,6 +25,10 @@ import { TasksModule } from './tasks/tasks.module';
     TasksModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor,
+    }],
 })
-export class AppModule {}
+export class AppModule { }

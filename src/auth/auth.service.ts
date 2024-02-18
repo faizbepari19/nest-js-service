@@ -31,11 +31,7 @@ export class AuthService {
     }
 
 
-    async forgotPassword(email: string) {
-        const result = {
-            email: null,
-            token: null
-        }
+    async forgotPassword(email: string): Promise<[User, string]> {
         const user = await this.usersRepository.findOne({ where: { email } });
 
         if (!user) {
@@ -48,9 +44,10 @@ export class AuthService {
         user.reset_token_expry = new Date(Date.now() + 60 * 60 * 1000); // Token expires in 1 hour
         await this.usersRepository.save(user);
 
-        result.email = user.email;
-        result.token = resetToken;
-        return result
+        return [user, resetToken]
+        // result.email = user.email;
+        // result.token = resetToken;
+        // return result
     }
 
     async resetPassword(email: string, token: string, newPassword: string): Promise<void> {
