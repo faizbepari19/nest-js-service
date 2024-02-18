@@ -17,12 +17,18 @@ export class TasksService {
 
     // get all tasks
     async findall(): Promise<Tasks[]> {
-        return await this.tasksRepository.find({ where: { deleted_at: null } });
+        return await this.tasksRepository.find({ 
+            where: { deleted_at: null },
+            select: ['id', 'title', 'description', 'status', 'created_at']
+        });
     }
 
     // get one task
     async findOne(id: number): Promise<Tasks> {
-        return await this.tasksRepository.findOne({ where: { id, deleted_at: null } });
+        return await this.tasksRepository.findOne({ 
+            where: { id, deleted_at: null },
+            select: ['id', 'title', 'description', 'status', 'created_at']
+        });
     }
 
     //create task
@@ -34,13 +40,19 @@ export class TasksService {
     // update task
     async update(id: number, task: CreateTaskDto): Promise<Tasks> {
         await this.tasksRepository.update(id, task);
-        return await this.tasksRepository.findOne({ where: { id } });
+        return await this.tasksRepository.findOne({ 
+            where: { id },
+            select: ['id', 'title', 'description', 'status', 'created_at']
+        });
     }
 
     // complete task
     async complete(id: number): Promise<Tasks> {
         await this.tasksRepository.update(id, { status: true });
-        return await this.tasksRepository.findOne({ where: { id } });
+        return await this.tasksRepository.findOne({ 
+            where: { id },
+            select: ['id', 'title', 'description', 'status', 'created_at']
+        });
     }
 
     // delete task

@@ -19,7 +19,7 @@ export class Tasks {
     @Column({
         default: 0
     })
-    status: boolean;
+    status: boolean; // 0 - incomplete, 1 - complete
 
     // Establishing Many-to-One relationship with User entity
     @ManyToOne(() => User, user => user.tasks)
