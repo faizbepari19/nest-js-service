@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Patch, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Patch, NotFoundException, Query } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { Tasks } from './tasks.entity';
 import { ResponseDto } from '../common/response.dto';
@@ -25,8 +25,11 @@ export class TasksController {
 
     //get all tasks
     @Get()
-    async findAll(): Promise<ResponseDto> {
-        const task_record = await this.tasksService.findall();
+    async findAll( 
+        @Query('sort_by') sort_by?: string,
+        @Query('sort_order') sort_order?: 'ASC' | 'DESC',
+        @Query('filter_by') filter_by?: string): Promise<ResponseDto> {
+        const task_record = await this.tasksService.findall(sort_by, sort_order, filter_by);
         return new ResponseDto({
             statusCode: 200,
             message: 'Task lists',

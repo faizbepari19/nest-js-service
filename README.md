@@ -106,7 +106,9 @@ Status Code: 201
 
 
 ```
-GET: /tasks
+GET: /tasks?sort_by=id&sort_order=DESC&filter_by=earn
+[Currently filtering is done by name ]
+
 Response
 Status Code: 200
 {
